@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const fsPromises = require('node:fs/promises');
 
-const bundlePath = path.resolve('05-merge-styles\\project-dist\\bundle.css');
-const stylesPath = path.resolve('05-merge-styles\\styles');
+const bundlePath = path.join('05-merge-styles\\project-dist\\bundle.css');
+const stylesPath = path.resolve('05-merge-styles');
 
 function createEmptyBundle() {
   fs.open(bundlePath, 'w', (err) => {
@@ -34,8 +34,8 @@ async function mergeStyles(mergePath) {
           }
         });
       });
-    } else if (!styleFile.isFile()) {
-      const nestedStylesFold = path.resolve(`${stylesPath}\\${styleFile.name}`);
+    } else if (!styleFile.isFile() && styleFile.name !== 'project-dist') {
+      const nestedStylesFold = path.resolve(`${mergePath}\\${styleFile.name}`);
       mergeStyles(nestedStylesFold);
     }
   }
