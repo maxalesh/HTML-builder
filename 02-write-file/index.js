@@ -2,6 +2,7 @@ const readline = require('readline');
 const fs = require('fs');
 const path = require('path');
 
+const outputPath = path.resolve('02-write-file\\output.txt');
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -12,6 +13,18 @@ rl.on('SIGINT', function () {
   process.exit(1);
 });
 
+function createEmptyFile(pathFile) {
+  fs.open(pathFile, 'w', (err) => {
+    if (err) {
+      fs.truncate(pathFile, (err1) => {
+        if (err1) {
+          console.error(err1);
+        }
+      });
+    }
+  });
+}
+
 function writeAnswer(question) {
   rl.question(question, (answer) => {
     if (answer === 'exit') {
@@ -19,10 +32,10 @@ function writeAnswer(question) {
       process.exit(1);
     }
 
-    fs.open('output.txt', 'w', (err) => {
-      if (err) throw err;
+    fs.open(path.join(outputPath), 'a', (err) => {
+      if (err) console.error(err);
       fs.appendFile(
-        path.join('02-write-file\\output.txt'),
+        path.resolve(path.join(outputPath)),
         `${answer}\n`,
         'utf-8',
         (err) => {
@@ -36,4 +49,5 @@ function writeAnswer(question) {
 }
 
 console.log('Hello!');
+createEmptyFile(outputPath);
 writeAnswer('Почему RSSchool?: ');
