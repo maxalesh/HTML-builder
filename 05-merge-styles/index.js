@@ -3,7 +3,7 @@ const path = require('path');
 const fsPromises = require('node:fs/promises');
 
 const bundlePath = path.join('05-merge-styles\\project-dist\\bundle.css');
-const stylesPath = path.resolve('05-merge-styles');
+const stylesPath = path.resolve('05-merge-styles\\styles');
 
 function createEmptyBundle() {
   fs.open(bundlePath, 'w', (err) => {
